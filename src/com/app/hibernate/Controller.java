@@ -36,6 +36,8 @@ public class Controller {
             queryEmployee(id);
         } else if(ans.equalsIgnoreCase("Delete")) {
             System.out.println("Enter employee id to delete employee");
+            int id = input.nextInt();
+            deleteEmployee(id);
         }
     }
 
@@ -88,6 +90,27 @@ public class Controller {
 
 
 
+        } finally {
+            factory.close();
+        }
+    }
+
+    public static void deleteEmployee(int id) {
+        try {
+            //getting a session from the session factory
+            Session session = factory.getCurrentSession();
+
+            //starting transaction on the section collected from the session factory
+            session.beginTransaction();
+
+            //query for the employee based on the id
+//            Employee employee = session.get(Employee.class, id);
+            System.out.println("Deleting entity");
+            session.createQuery("delete from Employee s where s.id ="+id).executeUpdate();
+
+            session.getTransaction().commit();
+
+            System.out.println("Done");
         } finally {
             factory.close();
         }
